@@ -1,0 +1,25 @@
+{
+  "name": "bower-froogaloop",
+  "description": "A bower install for Froogaloop2 - The JavaScript API of Vimeo.",
+  "homepage": "https://github.com/mobiliseme/bower-froogaloop",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/mobiliseme/bower-froogaloop.git"
+  },
+  "main": "froogaloop.js",
+  "ignore": [
+    "LICENSE",
+    "README.md",
+    "bower.json"
+  ],
+  "_release": "db997185f1",
+  "_resolution": {
+    "type": "branch",
+    "branch": "master",
+    "commit": "db997185f1ef057af42b818e9b187cc29a7e92f0"
+  },
+  "_source": "git://github.com/MobiliseMe/bower-froogaloop.git",
+  "_target": "*",
+  "_originalSource": "bower-froogaloop",
+  "_direct": true
+}
