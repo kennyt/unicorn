@@ -14,14 +14,6 @@
     <iframe class="clip current" id="1" src="https://player.vimeo.com/video/111331210?api=1&autoplay=1&player_id='1'&hd_off=1"  width="800" height="850" frameborder="0" autoplay></iframe>
   </div>
   <div class="hero-footer">is coming</div>
-  <div class="media tc early"></div>
-  <div class="media bbc early"></div>
-  <div class="media cnn early"></div>
-  <div class="media wired early"></div>
-  <div class="media yahoo early"></div>
-  <div class="media forbes early"></div>
-  <div class="media times late"></div>
-  <div class="media huff late"></div>
   <audio src="audio/song.mp3"></audio>
   <script>
 
@@ -81,6 +73,10 @@
               closePlayer();
             }, 8000);
           }, randSong.dim);
+
+          setTimeout(function(){
+            preloadMedia();
+          }, randSong.dim - 10000)
           // }, 3000);
         };
 
@@ -243,11 +239,11 @@
 
         function endApp(){
           $('.media').fadeOut(3000);
-          $('.view-port').fadeOut(3000);
-          $text.remove();
+          $view.fadeOut(3000);
+          $text.fadeOut(3000);
           $('.hero-heading').fadeOut(3000);
           $('.hero-footer').fadeOut(3000);
-          $('body').css('background-color', '#E8E8E8');
+          $('body').css('background-color', '#F8F8F8');
 
           $('body').append('<div class="unicorn">\
             <div class="uni-header">Introducing Unicorn.</div>\
@@ -257,6 +253,17 @@
           setTimeout(function(){
             $('.uni-footer').fadeIn(3000);
           }, 8000);
+        };
+
+        function preloadMedia(){
+          $('body').append('<div class="media tc early"></div>\
+                            <div class="media bbc early"></div>\
+                            <div class="media cnn early"></div>\
+                            <div class="media wired early"></div>\
+                            <div class="media yahoo early"></div>\
+                            <div class="media forbes early"></div>\
+                            <div class="media times late"></div>\
+                            <div class="media huff late"></div>');
         }
 
         function rand(collection){
