@@ -1,58 +1,49 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>stream</title>
+  <title>Unicorn</title>
   <link rel="stylesheet" type="text/css" href="style.css">
 
   <script src="/bower_components/jquery/dist/jquery.min.js"></script>
   <script src="/bower_components/bower-froogaloop/froogaloop.js"></script>
 </head>
 <body>
-  <h1 class="hero-heading">It's coming</h1>
+  <h1 class="hero-heading">Something</h1>
   <h1 class="centerText"></h1>
   <div class="view-port">
-    <iframe class="clip current" id="1" src="http://player.vimeo.com/video/101441424?api=1&autoplay=1&player_id=1&hd_off=1"  width="800" height="650" frameborder="0" autoplay></iframe>
-    <iframe class="clip hidden" id="2" src="http://player.vimeo.com/video/92367692?api=1&player_id=2&hd_off=1"  width="800" height="650" frameborder="0"></iframe>
+    <iframe class="clip current" id="1" src="http://player.vimeo.com/video/111331210?api=1&autoplay=1&player_id='1'&hd_off=1"  width="800" height="850" frameborder="0" autoplay></iframe>
   </div>
-  <div class="media tc"></div>
-  <div class="media bi"></div>
-  <div class="media sfe"></div>
-  <div class="media wired"></div>
-  <div class="media yahoo"></div>
-  <div class="media forbes"></div>
-  <audio src="audio/song.mp3" autoplay></audio>
+  <div class="hero-footer">is coming</div>
+  <div class="media tc early"></div>
+  <div class="media bbc early"></div>
+  <div class="media cnn early"></div>
+  <div class="media wired early"></div>
+  <div class="media yahoo early"></div>
+  <div class="media forbes early"></div>
+  <div class="media times late"></div>
+  <div class="media huff late"></div>
+  <audio src="audio/song.mp3"></audio>
   <script>
 
     $(function() {
+        var vimeoIds = ['101441424', '92367692', '96846520', '111331210', '104799259', '115541651', '118336448', '121495520', '98548134', '100541681', '122633176', '121124509', '116022179', '114950712', '101584491'];
+
+        var words = ['amazing', 'unbelieveable','new', 'sexy', 'perfect', 'inspiring', 'insane', 'better', 'greater', 'beautiful', 'gorgeous', 'different', 'unique', 'special', 'stronger', 'faster', 'exceptional', 'world changing', 'game changing', 'next level', 'wonderful', 'magnificent', 'marvelous', 'classy', 'delicate', 'exquisite', 'breathtaking', 'genius', 'brilliant', 'awe-inspiring', 'majestic', 'daring', 'brave' , 'fearless'];
+        var wordStyles = ['serif-word', 'sans-serif-word'];
+        var songs = [{src: 'song', start: 6.45, dim: 94000}, {src: 'song2', start: 290, dim: 78500}];
+
+
         var $view = $('.view-port');
-        var id = 2;
-        $('audio')[0].currentTime = 4.45;
+        var $text = $('.centerText');
+        var $audio = $('audio');
+        var id = 1;
+        var wordFade = 2500;
+        var stepDur = 5000;
+        var wordChangeDur = 7000;
+        var wordChangeCount = 0;
 
-        var words = ['amazing', 'unbelieveable','new', 'fucking sexy', 'perfect', 'inspiring', 'insane', 'better', 'greater', 'beautiful', 'gorgeous', 'different', 'unique', 'special', 'stronger', 'faster'];
-
-        var vimeoIds = ['101441424', '92367692', '96846520', '111331210', '104799259', '115541651', '118336448', '121495520', '98548134', '100541681', '100541681', '100541681', '122633176', '121124509', '116022179', '114950712', '101584491'];
-
-        setInterval(function(){
-          var newVid = $('.hidden');
-          var currentVid = $('.current');
-          var randSrc = vimeoIds[Math.floor(Math.random() * vimeoIds.length)];
-
-          setTimeout(function(){
-            newVid.removeClass('hidden').addClass('current');
-            $(currentVid).remove();
-            appendPlayer(randSrc);
-            appendWord();
-          }, 1000);
-
-          setTimeout(function(){
-            dimLights();
-          // }, 89000)
-          }, 2000)
-        }, 7000);
-
-
-        var player = $($('iframe')[0]);
-        var playerOrigin = 'https://player.vimeo.com';
+        
+        initialize();
 
         // Listen for messages from the player
         if (window.addEventListener) {
@@ -62,29 +53,73 @@
           window.attachEvent('onmessage', onMessageReceived, false);
         }
 
+        function initialize(){
+          var newVid = rand(vimeoIds);
+          appendPlayer(newVid);
+
+          var randSong = rand(songs);
+
+          $audio.attr('src', 'audio/' + randSong.src + '.mp3');
+          $audio[0].play();
+          $audio[0].currentTime = randSong.start;
+          $audio[0].volume = 0.0001;
+          $audio.animate({volume: 0.8}, 3000);
+
+          setInterval(function(){
+            changeVid();
+          }, stepDur);
+
+          setTimeout(function(){
+            wordFlash();
+          }, stepDur + 1000);
+
+
+          setTimeout(function(){
+            dimLights();
+
+            setTimeout(function(){
+              closePlayer();
+            }, 8000);
+          }, randSong.dim);
+          // }, 3000);
+        };
+
+        var player = $($('iframe')[0]);
+        var playerOrigin = 'https://player.vimeo.com';
+
         function onMessageReceived(event) {
-            // Handle messages from the vimeo player only
-            if (!(/^https?:\/\/player.vimeo.com/).test(event.origin)) {
-                return false;
-            }
+          // Handle messages from the vimeo player only
+          if (!(/^https?:\/\/player.vimeo.com/).test(event.origin)) {
+              return false;
+          }
 
-            if (playerOrigin === '*') {
-                playerOrigin = event.origin;
-            }
+          if (playerOrigin === '*') {
+              playerOrigin = event.origin;
+          }
 
-            if(JSON.parse(event.data).event === "ready"){
-              post(null, "setVolume", 0.000001, event.source);
+          post(null, "play", null, event.source);
+          if(JSON.parse(event.data).event === "ready"){
+            post(null, "setVolume", 0.000001, event.source);
 
-              // setTimeout(function(){
-                post(null, "play", null, event.source);
-              // }, 4000);
+            $f($('.hidden')[0]).api('getDuration', function(dur){
+              console.log(dur);
+              var balance = 20;
+              if(dur > 120){
+                balance = 35;
+              }
 
-              $f($('.hidden')[0]).api('getduration', function(dur){
-                console.log(dur);
-                var rand = Math.random() * (dur - 20);
-                post(null, "seekTo", rand, event.source);
-              });
-            }
+              if(dur > 180){
+                balance = 45;
+              }
+
+              if(dur > 700){
+                balance = 120
+              }
+
+              var rand = Math.random() * (dur - balance);
+              post(null, "seekTo", rand, event.source);
+            });
+          }
         }
 
         function post(player, action, value, playerWindow) {
@@ -107,25 +142,104 @@
         function appendPlayer(src) {
           console.log(src);
           id++;
-          var newFrame = '<iframe class="clip hidden" id="'+id+'" src="http://player.vimeo.com/video/'+src+'?api=1&player_id='+id+'&hd_off=1"  width="800" height="650" frameborder="0" \
+          var newFrame = '<iframe class="clip hidden" id="'+id+'" src="http://player.vimeo.com/video/'+src+'?api=1&player_id='+id+'&hd_off=1"  width="800" height="850" frameborder="0" \
             ></iframe>';
 
-          $('.view-port').append(newFrame)
+          $view.append(newFrame)
         };
 
-        function appendWord(){
-          var randomWord = words[Math.floor(Math.random() * words.length)];
-          $('.centerText').html(randomWord);
-          $('.centerText').css('opacity', '1');
+        function changeWord(){
+          if(wordChangeCount === 0){
+            var randomWord = 'Unicorn';
+            blackScreen();
+
+            setTimeout(function(){
+              $('.hero-heading').animate({opacity: 1}, 5000);
+              $('.hero-footer').animate({opacity: 1}, 5000);
+            }, stepDur * 5);
+          } else {
+            var randomWord = rand(words);
+          }
+
+          $text.attr('class', 'centerText');
+          var style = rand(wordStyles);
+          $text.addClass(style);
+
+          $text.html(randomWord);
+          $text.css('opacity', '1');
+        }
+
+        function wordFlash(){
+          changeWord();
+          wordChangeCount++;
+          var wordTimes = Math.floor(wordChangeCount / 3);
+
+          for(var i = 0; i < wordTimes; i++){
+            setTimeout(function(){
+              changeWord();
+            }, (i * 1000) + 1000);
+          }
+
+          if(wordFade){
+            setTimeout(function(){
+              $text.animate({opacity: 0}, 1000, function(){
+              });
+            }, wordFade);
+          }
+
           setTimeout(function(){
-            $('.centerText').animate({opacity: 0}, 1000, function(){
-            });
-          }, 2500);
+            wordFlash();
+          }, wordChangeDur);
         };
 
         function dimLights(){
-          $('body').css('background-color', '#303030');
-          $('.media').animate({opacity: 0.8}, 5000);
+          $('body').css('background-color', '#909090');
+          $('.early').animate({opacity: 0.7}, 5000);
+          wordFade = false;
+        };
+
+        function blackScreen(){
+          $view.append('<div class="black-screen"></div>');
+          var cover = $('.black-screen');
+
+          cover.css({left: 0, top: 0});
+          setTimeout(function(){
+            cover.animate({opacity: 0}, 1000, function(){
+              cover.remove();
+            });
+          }, wordFade);
+        };
+
+        function changeVid(){
+          var newVid = $('.hidden');
+          var currentVid = $('.current');
+          var randSrc = vimeoIds[Math.floor(Math.random() * vimeoIds.length)];
+
+          if(Math.random() < 0.1){
+            $('.current').animate({opacity: 0}, 1000);
+          }
+
+          setTimeout(function(){
+            newVid.removeClass('hidden').addClass('current');
+            $(currentVid).remove();
+            appendPlayer(randSrc);
+          }, 1000);
+        };
+
+        function closePlayer(){
+          $view.animate({opacity: 0, height: 0}, 5000);
+          $('.hero-heading').animate({'margin-top': '240px'}, 5000);
+          $('.hero-footer').animate({'margin-top': '140px'}, 5000);
+
+          setTimeout(function(){
+            $('.late').animate({opacity: 0.7}, 5000);
+          }, 7000);
+          // $text.css('color', '#DC143C');
+          $text.css('color', 'white');
+        };
+
+        function rand(collection){
+          return collection[Math.floor(Math.random() * collection.length)];
         }
     });
   </script>
