@@ -34,7 +34,12 @@
     // var songs = [{src: 'song', start: 6.45, dim: 94000}, {src: 'song2', start: 290, dim: 78500}];
     var songs = [{src: 'song2', start: 290, dim: 78500}];
 
+
     $(function() {
+      $('audio').bind('canplay', function(){
+        initialize();
+        $('audio').unbind('canplay');
+      });
 
 
       var $view = $('.view-port');
@@ -47,7 +52,6 @@
       var wordChangeCount = 0;
 
       
-      initialize();
 
       // Listen for messages from the player
       if (window.addEventListener) {
@@ -62,12 +66,12 @@
         appendPlayer(newVid);
         $('.current').show();
         var randSong = rand(songs);
-
+        console.log('HEREE');
         // $audio.attr('src', 'audio/' + randSong.src + '.mp3');
         $audio[0].play();
         $audio[0].currentTime = randSong.start;
-        $audio[0].volume = 0.8;
-        // $audio.animate({volume: 0.8}, 6000);
+        $audio[0].volume = 0.00001;
+        $audio.animate({volume: 0.8}, 6000);
 
         setInterval(function(){
           changeVid();
@@ -110,7 +114,6 @@
           post(null, "setVolume", 0.000001, event.source);
 
           $f($('.hidden')[0]).api('getDuration', function(dur){
-            console.log(dur);
             var balance = 20;
             if(dur > 120){
               balance = 35;
@@ -148,7 +151,6 @@
       }
 
       function appendPlayer(src) {
-        console.log(src);
         id++;
         var newFrame = '<iframe class="clip hidden" id="'+id+'" src="https://player.vimeo.com/video/'+src+'?api=1&player_id='+id+'&hd_off=1"  width="800" height="850" frameborder="0" \
           ></iframe>';
@@ -188,7 +190,6 @@
           }, (i * 1000) + 1000);
         }
 
-            console.log(wordTimes);
         if(wordFade){
 
           if (wordTimes > 2){
