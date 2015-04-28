@@ -133,9 +133,9 @@
           
           var message = JSON.stringify(data);
           if(player === null){
-            return playerWindow.postMessage(data, 'http://player.vimeo.com');
+            return playerWindow.postMessage(data, 'https://player.vimeo.com');
           } else {
-            return player[0].contentWindow.postMessage(data, 'http://player.vimeo.com');
+            return player[0].contentWindow.postMessage(data, 'https://player.vimeo.com');
           }
         }
 
