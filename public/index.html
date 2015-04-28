@@ -25,7 +25,7 @@
     <iframe class="clip current" style="display:none;" id="1" src="https://player.vimeo.com/video/111331210?api=1&autoplay=0&player_id='1'&hd_off=1"  width="800" height="850" frameborder="0"></iframe>
   </div>
   <div class="hero-footer">is coming</div>
-  <audio src="audio/song2.mp3"></audio>
+  <audio src="audio/song2.mp3" autoplay></audio>
   <script>
     var vimeoIds = ['101441424', '92367692', '96846520', '111331210', '104799259', '115541651', '118336448', '121495520', '98548134', '100541681', '122633176', '121124509', '116022179', '114950712', '101584491'];
 
@@ -36,10 +36,9 @@
 
 
     $(function() {
-      $('audio').bind('canplay', function(){
-        initialize();
-        $('audio').unbind('canplay');
-      });
+      // $('audio').bind('canplay', function(){
+      //   $('audio').unbind('canplay');
+      // });
 
 
       var $view = $('.view-port');
@@ -51,6 +50,7 @@
       var wordChangeDur = 7000;
       var wordChangeCount = 0;
 
+      initialize();
       
 
       // Listen for messages from the player
