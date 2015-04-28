@@ -63,7 +63,7 @@
           $audio[0].play();
           $audio[0].currentTime = randSong.start;
           $audio[0].volume = 0.0001;
-          $audio.animate({volume: 0.8}, 3000);
+          $audio.animate({volume: 0.8}, 6000);
 
           setInterval(function(){
             changeVid();
@@ -193,7 +193,7 @@
         };
 
         function dimLights(){
-          $('body').css('background-color', '#909090');
+          $('body').css('background-color', '#B0B0B0');
           $('.early').animate({opacity: 0.7}, 5000);
           wordFade = false;
         };
@@ -233,10 +233,31 @@
 
           setTimeout(function(){
             $('.late').animate({opacity: 0.7}, 5000);
+            setTimeout(function(){
+              endApp();
+            }, 7000);
           }, 7000);
           // $text.css('color', '#DC143C');
           $text.css('color', 'white');
         };
+
+        function endApp(){
+          $('.media').fadeOut(3000);
+          $('.view-port').fadeOut(3000);
+          $text.remove();
+          $('.hero-heading').fadeOut(3000);
+          $('.hero-footer').fadeOut(3000);
+          $('body').css('background-color', '#E8E8E8');
+
+          $('body').append('<div class="unicorn">\
+            <div class="uni-header">Introducing Unicorn.</div>\
+            <div class="uni-footer">Here\'s to the crazy ones.<br><br>Starting at $12,000.</div>\
+          </div>');
+          $('.unicorn').fadeIn(8000);
+          setTimeout(function(){
+            $('.uni-footer').fadeIn(3000);
+          }, 8000);
+        }
 
         function rand(collection){
           return collection[Math.floor(Math.random() * collection.length)];

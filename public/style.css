@@ -189,3 +189,44 @@ body {
   margin-left: -128px;
   bottom: 20px;
 }
+
+.unicorn {
+  background: url(http://www.icon100.com/up/3813/256/14-Unicorn-horse-head-with-a-horn-and-wings.png);
+  background-size: contain;
+  height: 256px;
+  width: 256px;
+  position: absolute;
+  left: 50%;
+  margin-left: -128px;
+  top: 50%;
+  margin-top: -128px;
+  display: none;
+}
+
+.uni-header {
+  position: absolute;
+  top: -75px;
+  font-family: helvetica, arial, sans-serif;
+  font-size: 60px;
+  font-weight: 300;
+  text-align: center;
+  color: black;
+  letter-spacing: -4px;
+  width: 520px;
+  left: -130px;
+}
+
+.uni-footer {
+  position: absolute;
+  bottom: -150px;
+  font-family: helvetica, arial, sans-serif;
+  font-size: 40px;
+  font-weight: 300;
+  text-align: center;
+  color: black;
+  letter-spacing: -2px;
+  width: 520px;
+  left: -130px;
+  opacity: 0.35;
+  display: none;
+}
