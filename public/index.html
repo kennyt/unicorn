@@ -36,11 +36,6 @@
 
 
     $(function() {
-      // $('audio').bind('canplay', function(){
-      //   $('audio').unbind('canplay');
-      // });
-
-
       var $view = $('.view-port');
       var $text = $('.centerText');
       var $audio = $('audio');
@@ -191,7 +186,6 @@
         }
 
         if(wordFade){
-
           if (wordTimes > 2){
             wordFade = wordTimes * 1000;
           }
@@ -211,6 +205,7 @@
         $('body').css('background-color', '#989898');
         $('.early').animate({opacity: 0.7}, 5000);
         wordFade = false;
+        wordTimes = 30;
       };
 
       function blackScreen(){
@@ -229,10 +224,6 @@
         var newVid = $('.hidden');
         var currentVid = $('.current');
         var randSrc = vimeoIds[Math.floor(Math.random() * vimeoIds.length)];
-
-        // if(Math.random() < 0.1){
-        //   $('.current').animate({opacity: 0}, 1000);
-        // }
 
         setTimeout(function(){
           newVid.removeClass('hidden').addClass('current');
@@ -266,7 +257,7 @@
 
         $('body').append('<div class="unicorn">\
           <div class="uni-header">Introducing Unicorn.</div>\
-          <div class="uni-footer">Here\'s to the crazy ones.<br><br>Starting at $12,000.</div>\
+          <div class="uni-footer">Starting at $12,000.</div>\
         </div>');
         $('.unicorn').fadeIn(8000);
         setTimeout(function(){
