@@ -22,7 +22,7 @@
   <h1 class="hero-heading">Something</h1>
   <h1 class="centerText"></h1>
   <div class="view-port">
-    <iframe class="clip current" style="display:none;" id="1" src="https://player.vimeo.com/video/111331210?api=1&autoplay=0&player_id='1'&hd_off=1"  width="800" height="850" frameborder="0"></iframe>
+    <iframe class="clip current" style="display:none;" id="1" src="https://player.vimeo.com/video/111331210?api=1&autoplay=1&player_id='1'&hd_off=1"  width="800" height="850" frameborder="0"></iframe>
   </div>
   <div class="hero-footer">is coming</div>
   <audio src="audio/song2.mp3" autoplay></audio>
@@ -61,7 +61,7 @@
         appendPlayer(newVid);
         $('.current').show();
         var randSong = rand(songs);
-        console.log('HEREE');
+
         // $audio.attr('src', 'audio/' + randSong.src + '.mp3');
         $audio[0].play();
         $audio[0].currentTime = randSong.start;
@@ -257,7 +257,7 @@
 
         $('body').append('<div class="unicorn">\
           <div class="uni-header">Introducing Unicorn.</div>\
-          <div class="uni-footer">Starting at $12,000.</div>\
+          <div class="uni-footer">Gold edition starting at $12,000.</div>\
         </div>');
         $('.unicorn').fadeIn(8000);
         setTimeout(function(){
